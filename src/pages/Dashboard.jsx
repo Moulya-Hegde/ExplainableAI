@@ -5,6 +5,7 @@ import {
   BarChart, Bar, XAxis, YAxis, Tooltip
 } from 'recharts';
 import { Link } from 'react-router-dom';
+import Navbar from '../components/Navbar';
 
 const approvalData = [
   { name: 'Approved', value: 70 },
@@ -31,7 +32,9 @@ export default function Dashboard() {
   const [selectedTab, setSelectedTab] = useState('approval');
 
   return (
-    <main className="min-h-screen px-6 py-20 bg-night-bg text-night-text font-sans">
+    <>
+    <Navbar />
+    <main className="min-h-screen px-6 py-20 bg-night-bg text-night-text font-sans pt-5">
       <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.5 }}>
         {/* Heading */}
         <div className="flex flex-col md:flex-row md:items-center md:justify-between mb-10 px-2 sm:px-4">
@@ -156,5 +159,6 @@ export default function Dashboard() {
         </div>
       </motion.div>
     </main>
+    </>
   );
 }

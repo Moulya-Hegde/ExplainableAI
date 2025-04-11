@@ -1,7 +1,9 @@
 import React from 'react';
+import Navbar from '../components/Navbar';
 
 export default function CheckApprovalForm() {
   return (
+    <><Navbar />
     <div className="min-h-screen bg-night-bg text-night-text py-20 px-4 flex items-center justify-center">
       <div className="w-full max-w-4xl bg-gradient-to-br from-[#1f1f27] via-[#2e2e38] to-[#1f1f27] shadow-2xl rounded-3xl p-10 ring-2 ring-night-accent/20">
         <h1 className="text-5xl font-serif text-night-heading mb-2 text-center font-bold">
@@ -83,6 +85,7 @@ export default function CheckApprovalForm() {
         </div>
       </div>
     </div>
+    </>
   );
 }
 

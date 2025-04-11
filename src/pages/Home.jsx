@@ -22,7 +22,7 @@ const Home = () => {
             AlgoLens empowers analysts to explore, validate, and explain AI-driven loan approval decisions with clarity and confidence—ensuring transparency, trust, and accountability in every outcome.
           </p>
           <Link
-            to="/signup"
+            to="/dashboard"
             className="inline-block px-6 py-3 rounded-lg bg-button-gradient text-white font-semibold text-base sm:text-lg hover:opacity-90 transition"
           >
             Get Started
