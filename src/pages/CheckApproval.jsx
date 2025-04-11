@@ -1,7 +1,12 @@
 import React, { useState } from "react";
 import Navbar from "../components/Navbar";
-
+import axios from "axios";
+import { useNavigate } from "react-router-dom";
+import { useDispatch } from 'react-redux'
+import { setResultData } from '../redux/resultSlice'
 export default function CheckApprovalForm() {
+  const dispatch = useDispatch()
+  const navigate = useNavigate();
   const [formData, setFormData] = useState({
     age: "",
     name: "",
@@ -20,6 +25,7 @@ export default function CheckApprovalForm() {
   });
 
   const [errors, setErrors] = useState({});
+  const [loading, setLoading] = useState(false);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -52,17 +58,57 @@ export default function CheckApprovalForm() {
     return newErrors;
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
+  
     const validationErrors = validate();
     if (Object.keys(validationErrors).length > 0) {
       setErrors(validationErrors);
-    } else {
-      console.log("Submitting: ", formData);
-      setErrors({});
+      return;
+    }
+  
+    setLoading(true);
+    try {
+      const payload = {
+        age: Number(formData.age),
+        gender: Number(formData.gender),
+        edu: Number(formData.edu),
+        inc: Number(formData.inc),
+        emp: Number(formData.emp),
+        pho: Number(formData.pho),
+        amt: Number(formData.amt),
+        intent: Number(formData.intent),
+        rate: Number(formData.rate),
+        percinc: Number(formData.percinc),
+        cpc: Number(formData.cpc),
+        credit: Number(formData.credit),
+        prev: Number(formData.prev),
+      };
+ 
+      const response = await axios.post(
+        "http://localhost:5000/getapproval",
+        payload,
+        {
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      );
+      const { result, Justification, Suggestions, probability } = response.data
+      dispatch(setResultData({
+        result,
+        justification: Justification,
+        suggestions: Suggestions,
+        probability: (probability * 100).toFixed(2),
+      }))
+      navigate("/results");
+    } catch (err) {
+      console.error("Submission error:", err);
+      alert("An error occurred. Please try again.");
+    } finally {
+      setLoading(false);
     }
   };
-
   return (
     <>
       <Navbar />
@@ -93,16 +139,16 @@ export default function CheckApprovalForm() {
             <Input label="Credit History (Years)" name="cpc" type="number" min={0} max={40} placeholder="e.g., 6" value={formData.cpc} onChange={handleChange} error={errors.cpc} />
             <Input label="Credit Score" name="credit" type="number" min={300} max={850} placeholder="e.g., 720" value={formData.credit} onChange={handleChange} error={errors.credit} />
             <RadioGroup label="Previous Default?" name="prev" options={[["1", "Yes"], ["0", "No"]]} value={formData.prev} onChange={handleChange} error={errors.prev} />
-          </form>
-
           <div className="mt-12 text-center">
             <button
-              type="submit"
+              type="submit" disabled={loading}
               className="bg-button-gradient hover:bg-hover-button-gradient text-white font-bold py-3 px-8 rounded-xl shadow-lg transition-all duration-300 text-lg tracking-wide"
             >
-              Check Approval
+              {loading ? "Checking..." : "Check Approval"}
             </button>
           </div>
+          </form>
+
         </div>
       </div>
     </>

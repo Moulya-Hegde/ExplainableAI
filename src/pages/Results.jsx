@@ -1,8 +1,10 @@
 import React from 'react'
 import { motion } from 'framer-motion'
 import Navbar from '../components/Navbar'
-
+import { useSelector } from 'react-redux'
 const Results = () => {
+  const { result, justification, suggestions, probability } = useSelector((state) => state.result)
+
   return (
     <>
     <Navbar />
@@ -29,11 +31,13 @@ const Results = () => {
           transition={{ duration: 0.6 }}
           className="bg-gradient-to-br from-[#2e2e38] to-[#1f1f27] p-6 rounded-xl shadow-card mb-10"
         >
-          <h2 className="text-2xl font-serif font-semibold text-night-heading mb-3">📄 Decision Explanation</h2>
-          <p className="text-night-muted text-sm leading-relaxed">
-            The application was <span className="text-green-400 font-semibold">Approved</span> based on a combination of factors including a healthy credit score, stable income level, and moderate loan amount. The confidence score for this decision is <span className="text-night-accent font-bold">87%</span>. 
-            The interest rate and home ownership status further supported the approval.
-          </p>
+          <h2 className="...">📄 Decision Explanation</h2>
+            <p className="text-night-muted text-sm leading-relaxed">
+              The application was <span className={result === 'Loan Approved' ? 'text-green-400' : 'text-red-400'}>{result}</span>.{' '}
+              Confidence score: <span className="text-night-accent font-bold">{probability}%</span>
+              <br /><br />
+              {justification}
+            </p>
         </motion.div>
 
         {/* Charts Grid Section */}
@@ -64,12 +68,7 @@ const Results = () => {
           className="bg-night-card p-6 rounded-xl shadow-soft"
         >
           <h3 className="text-xl font-serif text-night-heading mb-4">💡 Suggestions</h3>
-          <ul className="space-y-3 list-disc list-inside text-night-muted text-sm">
-            <li>Maintain your credit score above 700 to retain eligibility.</li>
-            <li>Reduce loan interest rate by opting for a shorter term.</li>
-            <li>Improve income-to-loan ratio for better approval odds.</li>
-            <li>Keep employment history stable for creditworthiness.</li>
-          </ul>
+          <p className='text-night-muted text-sm whitespace-pre-line'>{suggestions}</p>
         </motion.div>
       </div>
     </main>
