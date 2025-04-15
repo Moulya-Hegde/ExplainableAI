@@ -21,11 +21,6 @@ const monthlyData = [
   { month: 'Apr', apps: 300 },
 ];
 
-const recentApps = [
-  { name: 'Jane Doe', status: 'Approved', score: 720, risk: 'Low' },
-  { name: 'John Smith', status: 'Rejected', score: 590, risk: 'High' },
-  { name: 'Priya Patel', status: 'Approved', score: 660, risk: 'Medium' },
-];
 
 export default function Dashboard() {
   const [selectedTab, setSelectedTab] = useState('approval');
@@ -42,9 +37,6 @@ export default function Dashboard() {
       });
   }, []);
   
-  
-  
-
   return (
     <>
       <Navbar />

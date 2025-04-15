@@ -10,6 +10,7 @@ export default function CheckApprovalForm() {
   const [formData, setFormData] = useState({
     age: "",
     name: "",
+    email: "",
     gender: "",
     edu: "",
     inc: "",
@@ -55,6 +56,11 @@ export default function CheckApprovalForm() {
     if (!formData.credit || formData.credit < 300 || formData.credit > 850)
       newErrors.credit = "Credit score must be 300 - 850";
     if (formData.prev === "") newErrors.prev = "Select previous default option";
+    if (!formData.email) {
+      newErrors.email = "Email is required";
+    } else if (!/\S+@\S+\.\S+/.test(formData.email)) {
+      newErrors.email = "Enter a valid email";
+    }
     return newErrors;
   };
 
@@ -71,6 +77,7 @@ export default function CheckApprovalForm() {
     try {
       const payload = {
         name: formData.name,
+        email: formData.email,
         age: Number(formData.age),
         gender: Number(formData.gender),
         edu: Number(formData.edu),
@@ -95,11 +102,13 @@ export default function CheckApprovalForm() {
           },
         }
       );
-      const { result, Justification, Suggestions, probability } = response.data
+      const { result, justification,feature_explanation,feature_contributions, suggestions, probability } = response.data
       dispatch(setResultData({
         result,
-        justification: Justification,
-        suggestions: Suggestions,
+        justification: justification,
+        feature_explanation: feature_explanation,
+        feature_contributions: feature_contributions,
+        suggestions: suggestions,
         probability: (probability * 100).toFixed(2),
       }))
       navigate("/results");
@@ -126,8 +135,9 @@ export default function CheckApprovalForm() {
             className="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-6"
             onSubmit={handleSubmit}
           >
-            <Input label="Age" name="age" type="number" min={18} max={100} placeholder="e.g., 32" value={formData.age} onChange={handleChange} error={errors.age} />
             <Input label="Name" name="name" placeholder="e.g., Jane Doe" value={formData.name} onChange={handleChange} error={errors.name} />
+            <Input label="Email" name="email" placeholder="abcd@gmail.com" value={formData.email} onChange={handleChange} error={errors.name} type="email" />
+            <Input label="Age" name="age" type="number" min={18} max={100} placeholder="e.g., 32" value={formData.age} onChange={handleChange} error={errors.age} />
             <RadioGroup label="Gender" name="gender" options={[["0", "Male"], ["1", "Female"]]} value={formData.gender} onChange={handleChange} error={errors.gender} />
             <Select label="Education" name="edu" options={[["0", "Associate"], ["1", "Bachelor"], ["2", "Doctorate"], ["3", "High School"], ["4", "Master"]]} value={formData.edu} onChange={handleChange} error={errors.edu} />
             <Input label="Monthly Income ($)" name="inc" type="number" min={0} placeholder="e.g., 5000" value={formData.inc} onChange={handleChange} error={errors.inc} />
