@@ -70,6 +70,7 @@ export default function CheckApprovalForm() {
     setLoading(true);
     try {
       const payload = {
+        name: formData.name,
         age: Number(formData.age),
         gender: Number(formData.gender),
         edu: Number(formData.edu),

@@ -2,11 +2,12 @@ import React from 'react';
 import Navbar from '../components/Navbar';
 import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
-
+import FallingStars from '../components/FallingStars';
 const Home = () => {
   return (
     <>
       <Navbar />
+      <FallingStars />
       <main className="min-h-screen bg-night-bg text-night-text px-4 pt-32 pb-16 flex flex-col items-center">
         {/* Hero Section */}
         <motion.section
