@@ -6,8 +6,8 @@ import CheckApproval from "../pages/CheckApproval";
 import Login from "../pages/Login";
 import Register from "../pages/Register";
 import { SignedIn, SignedOut, RedirectToSignIn } from '@clerk/clerk-react';
-import Results from "../pages/Results";
 import About from "../pages/About";
+import History from "../pages/History";
 const AppRouter = () => {
   return (
     <Routes>
@@ -29,11 +29,11 @@ const AppRouter = () => {
         }
       />
       <Route
-        path="/results"
+        path="/history"
         element={
           <>
             <SignedIn>
-              <Results />
+              <History />
             </SignedIn>
             <SignedOut>
               <RedirectToSignIn />

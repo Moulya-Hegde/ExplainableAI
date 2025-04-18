@@ -1,9 +1,8 @@
 import React from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import { useUser, SignedIn, SignedOut, UserButton } from '@clerk/clerk-react';
+import {  SignedIn, SignedOut, UserButton } from '@clerk/clerk-react';
 
 const Navbar = () => {
-  const { isSignedIn } = useUser();
   const location = useLocation();
 
   return (
@@ -24,6 +23,9 @@ const Navbar = () => {
         </SignedIn>
         <SignedIn>
           <NavLink text="Check Approval" to="/check-approval" currentPath={location.pathname} />
+        </SignedIn>
+        <SignedIn>
+          <NavLink text="History" to="/history" currentPath={location.pathname} />
         </SignedIn>
       </div>
 

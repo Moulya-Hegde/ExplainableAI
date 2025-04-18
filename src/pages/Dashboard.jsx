@@ -5,41 +5,37 @@ import {
   BarChart, Bar, XAxis, YAxis, Tooltip, Legend
 } from 'recharts';
 import { Link } from 'react-router-dom';
-import Navbar from '../components/Navbar';
 import axios from 'axios';
 import RecentApplications from '../components/RecentApplications';
+import ImageSliderCard from '../components/ImageSliderCard';
 
 const COLORS = ['#8b5cf6', '#f87171'];
-
-
-const monthlyData = [
-  { month: 'Nov', apps: 140 },
-  { month: 'Dec', apps: 180 },
-  { month: 'Jan', apps: 220 },
-  { month: 'Feb', apps: 210 },
-  { month: 'Mar', apps: 250 },
-  { month: 'Apr', apps: 300 },
+const imageSet = [
+  { src: '/images/coef.png', title: 'Approval Report' },
+  { src: '/images/confusion.png', title: 'Loan Stats Overview' },
+  { src: '/images/dimension.png', title: 'Risk Forecast' },
+  { src: '/images/dist.png', title: 'Demographic Insights' },
+  { src: '/images/partial.png', title: 'Credit History Trends' },
 ];
 
-
 export default function Dashboard() {
-  const [selectedTab, setSelectedTab] = useState('approval');
+  
   const [stats, setStats] = useState(null);
 
   useEffect(() => {
     axios.get('http://localhost:5000/getstats') // Change to your backend URL
       .then((res) => {
         const data = Array.isArray(res.data) ? res.data[0] : res.data; // Handle array or object
+        console.log(data);
         setStats(data);
       })
       .catch((error) => {
         console.error('Failed to fetch stats:', error);
       });
   }, []);
-  
+  console.log(stats);
   return (
     <>
-      <Navbar />
       <main className="min-h-screen px-6 py-20 bg-night-bg text-night-text font-sans pt-5">
         <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.5 }}>
           {/* Heading */}
@@ -101,7 +97,10 @@ export default function Dashboard() {
     />
   </PieChart>
 </ResponsiveContainer>
-
+<div className="pr-6 max-w-5xl mx-auto pt-16">
+      <h2 className="text-2xl font-semibold text-night-heading mb-6">📊 Visual Insights</h2>
+      <ImageSliderCard images={imageSet} interval={8000} />
+    </div>
               </div>
 
               </div>
@@ -151,6 +150,7 @@ export default function Dashboard() {
             </div>
           </div>
         </motion.div>
+        
       </main>
     </>
   );

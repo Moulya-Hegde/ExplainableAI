@@ -4,9 +4,11 @@ import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { useDispatch } from 'react-redux'
 import { setResultData } from '../redux/resultSlice'
+import Results from "./Results";
 export default function CheckApprovalForm() {
   const dispatch = useDispatch()
   const navigate = useNavigate();
+  const [showResults, setShowResults] = useState(false);
   const [formData, setFormData] = useState({
     age: "",
     name: "",
@@ -46,14 +48,14 @@ export default function CheckApprovalForm() {
       newErrors.emp = "Experience must be positive";
     if (!formData.pho) newErrors.pho = "Select home ownership";
     if (!formData.amt || formData.amt < 500 || formData.amt > 40000)
-      newErrors.amt = "Loan amount must be $500 - $40,000";
+      newErrors.amt = "Loan amount must be Rs.100 - Rs.10,00,000";
     if (!formData.intent) newErrors.intent = "Select loan intent";
     if (!formData.rate || formData.rate < 5 || formData.rate > 30)
       newErrors.rate = "Interest rate must be 5% - 30%";
     if (!formData.percinc || formData.percinc > 100)
       newErrors.percinc = "Must be within 0 - 100";
     if (!formData.cpc) newErrors.cpc = "Credit history is required";
-    if (!formData.credit || formData.credit < 300 || formData.credit > 850)
+    if (!formData.credit || formData.credit < 200 || formData.credit > 850)
       newErrors.credit = "Credit score must be 300 - 850";
     if (formData.prev === "") newErrors.prev = "Select previous default option";
     if (!formData.email) {
@@ -111,7 +113,7 @@ export default function CheckApprovalForm() {
         suggestions: suggestions,
         probability: (probability * 100).toFixed(2),
       }))
-      navigate("/results");
+      setShowResults(true);
     } catch (err) {
       console.error("Submission error:", err);
       alert("An error occurred. Please try again.");
@@ -121,48 +123,53 @@ export default function CheckApprovalForm() {
   };
   return (
     <>
-      <Navbar />
-      <div className="min-h-screen bg-night-bg text-night-text py-20 px-4 flex items-center justify-center">
-        <div className="w-full max-w-4xl bg-gradient-to-br from-[#1f1f27] via-[#2e2e38] to-[#1f1f27] shadow-2xl rounded-3xl p-10 ring-2 ring-night-accent/20">
-          <h1 className="text-5xl font-serif text-night-heading mb-2 text-center font-bold">
-            Check Loan Approval
-          </h1>
-          <p className="text-night-muted mb-10 text-center font-mono text-xl">
-            Explore customer eligibility with AI insights
-          </p>
-
-          <form
-            className="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-6"
-            onSubmit={handleSubmit}
-          >
-            <Input label="Name" name="name" placeholder="e.g., Jane Doe" value={formData.name} onChange={handleChange} error={errors.name} />
-            <Input label="Email" name="email" placeholder="abcd@gmail.com" value={formData.email} onChange={handleChange} error={errors.name} type="email" />
-            <Input label="Age" name="age" type="number" min={18} max={100} placeholder="e.g., 32" value={formData.age} onChange={handleChange} error={errors.age} />
-            <RadioGroup label="Gender" name="gender" options={[["0", "Male"], ["1", "Female"]]} value={formData.gender} onChange={handleChange} error={errors.gender} />
-            <Select label="Education" name="edu" options={[["0", "Associate"], ["1", "Bachelor"], ["2", "Doctorate"], ["3", "High School"], ["4", "Master"]]} value={formData.edu} onChange={handleChange} error={errors.edu} />
-            <Input label="Monthly Income ($)" name="inc" type="number" min={0} placeholder="e.g., 5000" value={formData.inc} onChange={handleChange} error={errors.inc} />
-            <Input label="Experience (Years)" name="emp" type="number" min={0} max={50} placeholder="e.g., 5" value={formData.emp} onChange={handleChange} error={errors.emp} />
-            <Select label="Home Ownership" name="pho" options={[["0", "OWN"], ["1", "RENT"]]} value={formData.pho} onChange={handleChange} error={errors.pho} />
-            <Input label="Loan Amount ($)" name="amt" type="number" min={500} max={40000} placeholder="e.g., 15000" value={formData.amt} onChange={handleChange} error={errors.amt} />
-            <Select label="Loan Intent" name="intent" options={[["0", "DEBT CONSOLIDATION"], ["1", "EDUCATION"], ["2", "HOME IMPROVEMENT"], ["3", "MEDICAL"], ["4", "PERSONAL"], ["5", "VENTURE"]]} value={formData.intent} onChange={handleChange} error={errors.intent} />
-            <Input label="Interest Rate (%)" name="rate" type="number" step="0.1" min={5} max={30} placeholder="e.g., 11.5" value={formData.rate} onChange={handleChange} error={errors.rate} />
-            <Input label="% of Income" name="percinc" type="number" step="0.1" min={0} max={100} placeholder="e.g., 28.3" value={formData.percinc} onChange={handleChange} error={errors.percinc} />
-            <Input label="Credit History (Years)" name="cpc" type="number" min={0} max={40} placeholder="e.g., 6" value={formData.cpc} onChange={handleChange} error={errors.cpc} />
-            <Input label="Credit Score" name="credit" type="number" min={300} max={850} placeholder="e.g., 720" value={formData.credit} onChange={handleChange} error={errors.credit} />
-            <RadioGroup label="Previous Default?" name="prev" options={[["1", "Yes"], ["0", "No"]]} value={formData.prev} onChange={handleChange} error={errors.prev} />
-          <div className="mt-12 text-center">
-            <button
-              type="submit" disabled={loading}
-              className="bg-button-gradient hover:bg-hover-button-gradient text-white font-bold py-3 px-8 rounded-xl shadow-lg transition-all duration-300 text-lg tracking-wide"
+      
+    
+      {!showResults?(
+        
+        <div className="min-h-screen bg-night-bg text-night-text py-20 px-4 flex items-center justify-center">
+          <div className="w-full max-w-4xl bg-gradient-to-br from-[#1f1f27] via-[#2e2e38] to-[#1f1f27] shadow-2xl rounded-3xl p-10 ring-2 ring-night-accent/20">
+            <h1 className="text-5xl font-serif text-night-heading mb-2 text-center font-bold">
+              Check Loan Approval
+            </h1>
+            <p className="text-night-muted mb-10 text-center font-mono text-xl">
+              Explore customer eligibility with AI insights
+            </p>
+  
+            <form
+              className="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-6"
+              onSubmit={handleSubmit}
             >
-              {loading ? "Checking..." : "Check Approval"}
-            </button>
+              <Input label="Name" name="name" placeholder="e.g., Jane Doe" value={formData.name} onChange={handleChange} error={errors.name} />
+              <Input label="Email" name="email" placeholder="abcd@gmail.com" value={formData.email} onChange={handleChange} error={errors.name} type="email" />
+              <Input label="Age" name="age" type="number" min={18} max={100} placeholder="e.g., 32" value={formData.age} onChange={handleChange} error={errors.age} />
+              <RadioGroup label="Gender" name="gender" options={[["0", "Male"], ["1", "Female"]]} value={formData.gender} onChange={handleChange} error={errors.gender} />
+              <Select label="Education" name="edu" options={[["0", "Associate"], ["1", "Bachelor"], ["2", "Doctorate"], ["3", "High School"], ["4", "Master"]]} value={formData.edu} onChange={handleChange} error={errors.edu} />
+              <Input label="Monthly Income (Rs)" name="inc" type="number" min={0} placeholder="e.g., 5000" value={formData.inc} onChange={handleChange} error={errors.inc} />
+              <Input label="Experience (Years)" name="emp" type="number" min={0} max={50} placeholder="e.g., 5" value={formData.emp} onChange={handleChange} error={errors.emp} />
+              <Select label="Home Ownership" name="pho" options={[["0", "OWN"], ["1", "RENT"]]} value={formData.pho} onChange={handleChange} error={errors.pho} />
+              <Input label="Loan Amount (Rs)" name="amt" type="number" min={500} max={40000} placeholder="e.g., 15000" value={formData.amt} onChange={handleChange} error={errors.amt} />
+              <Select label="Loan Intent" name="intent" options={[["0", "DEBT CONSOLIDATION"], ["1", "EDUCATION"], ["2", "HOME IMPROVEMENT"], ["3", "MEDICAL"], ["4", "PERSONAL"], ["5", "VENTURE"]]} value={formData.intent} onChange={handleChange} error={errors.intent} />
+              <Input label="Interest Rate (%)" name="rate" type="number" step="0.1" min={5} max={30} placeholder="e.g., 11.5" value={formData.rate} onChange={handleChange} error={errors.rate} />
+              <Input label="% of Income" name="percinc" type="number" step="0.1" min={0} max={100} placeholder="e.g., 28.3" value={formData.percinc} onChange={handleChange} error={errors.percinc} />
+              <Input label="Credit History (Years)" name="cpc" type="number" min={0} max={40} placeholder="e.g., 6" value={formData.cpc} onChange={handleChange} error={errors.cpc} />
+              <Input label="Credit Score" name="credit" type="number" min={300} max={850} placeholder="e.g., 720" value={formData.credit} onChange={handleChange} error={errors.credit} />
+              <RadioGroup label="Previous Default?" name="prev" options={[["1", "Yes"], ["0", "No"]]} value={formData.prev} onChange={handleChange} error={errors.prev} />
+            <div className="mt-12 text-center">
+              <button
+                type="submit" disabled={loading}
+                className="bg-button-gradient hover:bg-hover-button-gradient text-white font-bold py-3 px-8 rounded-xl shadow-lg transition-all duration-300 text-lg tracking-wide"
+              >
+                {loading ? "Checking..." : "Check Approval"}
+              </button>
+            </div>
+            </form>
+  
           </div>
-          </form>
-
         </div>
-      </div>
-    </>
+        
+      ):(<Results />)}
+      </>
   );
 }
 

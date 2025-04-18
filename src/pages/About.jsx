@@ -28,7 +28,7 @@ const team = [
 const About = () => {
   return (
     <> 
-    <Navbar />
+
     <main className="bg-night-bg text-night-text min-h-screen px-6 py-20">
       {/* Heading */}
       <motion.div

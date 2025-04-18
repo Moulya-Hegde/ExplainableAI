@@ -1,6 +1,5 @@
 import React from 'react'
 import { motion } from 'framer-motion'
-import Navbar from '../components/Navbar'
 import { useSelector } from 'react-redux'
 
 const Results = () => {
@@ -15,7 +14,7 @@ const Results = () => {
 
   return (
     <>
-      <Navbar />
+      
       <main className="min-h-screen bg-night-bg text-night-text px-6 py-16">
         <div className="max-w-6xl mx-auto space-y-12">
 
