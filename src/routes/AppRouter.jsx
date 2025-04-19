@@ -5,9 +5,9 @@ import Dashboard from "../pages/Dashboard";
 import CheckApproval from "../pages/CheckApproval";
 import Login from "../pages/Login";
 import Register from "../pages/Register";
-import { SignedIn, SignedOut, RedirectToSignIn } from '@clerk/clerk-react';
 import About from "../pages/About";
 import History from "../pages/History";
+import ProtectedRoute from '../pages/ProtectedRoute';
 const AppRouter = () => {
   return (
     <Routes>
@@ -18,40 +18,25 @@ const AppRouter = () => {
       <Route
         path="/dashboard"
         element={
-          <>
-            <SignedIn>
-              <Dashboard />
-            </SignedIn>
-            <SignedOut>
-              <RedirectToSignIn />
-            </SignedOut>
-          </>
+          <ProtectedRoute>
+            <Dashboard />
+          </ProtectedRoute>
         }
       />
       <Route
         path="/history"
         element={
-          <>
-            <SignedIn>
-              <History />
-            </SignedIn>
-            <SignedOut>
-              <RedirectToSignIn />
-            </SignedOut>
-          </>
+          <ProtectedRoute>
+            <History />
+          </ProtectedRoute>
         }
       />
       <Route
         path="/check-approval"
         element={
-          <>
-            <SignedIn>
-              <CheckApproval />
-            </SignedIn>
-            <SignedOut>
-              <RedirectToSignIn />
-            </SignedOut>
-          </>
+          <ProtectedRoute>
+            <CheckApproval />
+          </ProtectedRoute>
         }
       />
       

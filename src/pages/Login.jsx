@@ -1,22 +1,43 @@
-import React from 'react';
-import { SignIn } from '@clerk/clerk-react';
-import { dark } from "@clerk/themes";
+// src/pages/Login.jsx
+import React, { useState } from "react";
+import { Auth, provider } from "./firebase";
+import { signInWithPopup } from "firebase/auth";
+import { useNavigate } from "react-router-dom";
 
 const Login = () => {
-  return (
-    <div className="flex min-h-screen items-center justify-center bg-gradient-to-r from-[#1A1A40] to-[#283593] relative pb-20 pt-10">
-      <div className="absolute inset-0 bg-black/40"></div>
+  const [error, setError] = useState("");
+  const navigate = useNavigate();
 
-      <div className="relative mt-4 p-5 bg-white/10 backdrop-blur-lg border border-white/20 rounded-2xl shadow-2xl text-white text-center max-w-md w-full">
-        <h2 className="text-3xl font-bold mb-2 text-[#E0E0E0]">Welcome Back! 🚀</h2>
-        
-        <SignIn
-          
-          appearance={{ baseTheme: dark }}
-        />
+  const handleGoogleLogin = async () => {
+    try {
+      await signInWithPopup(Auth, provider);
+      navigate("/dashboard");
+    } catch (err) {
+      setError("Google login failed.");
+      console.error(err);
+    }
+  };
+
+  return (
+    <div className="min-h-screen flex items-center justify-center bg-night-bg text-night-text">
+      <div className="bg-night-card p-8 rounded-xl shadow-xl w-full max-w-sm border border-night-border">
+        <h2 className="text-2xl font-bold mb-6 text-center text-night-heading">
+          Login with Google
+        </h2>
+
+        {error && (
+          <p className="text-red-500 text-sm mb-4 text-center">{error}</p>
+        )}
+
+        <button
+          onClick={handleGoogleLogin}
+          className="w-full bg-purple-500 text-night-heading font-semibold py-2 rounded-md border border-night-border hover:bg-night-muted transition"
+        >
+          Sign In with Google
+        </button>
       </div>
     </div>
   );
 };
 
-export default Login;
+export default Login;

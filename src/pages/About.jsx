@@ -3,32 +3,38 @@ import { FaGithub, FaLinkedin } from 'react-icons/fa'
 import Navbar from '../components/Navbar'
 const team = [
   {
-    name: 'Mouly',
+    name: 'Moulya',
     role: 'Lead Developer',
-    github: 'https://github.com/your-github',
-    linkedin: 'https://linkedin.com/in/your-linkedin',
-    image: 'https://via.placeholder.com/100',
+    github: 'https://github.com/Moulya-Hegde',
+    linkedin: 'https://www.linkedin.com/in/moulya-r-hegde-343a53259',
+    image: "https://tse3.mm.bing.net/th?id=OIP.-5bB4gYcn8NnhTT2rdw2kwAAAA&pid=Api&P=0&h=180",
   },
   {
-    name: 'Teammate 2',
+    name: 'Manu S',
     role: 'ML Engineer',
-    github: 'https://github.com/teammate2',
-    linkedin: 'https://linkedin.com/in/teammate2',
-    image: 'https://via.placeholder.com/100',
+    github: ' https://github.com/Manushivuz',
+    linkedin: 'https://linkedin.com/in/manushivuz',
+    image: 'https://wallpapercave.com/wp/wp11287327.jpg',
   },
   {
-    name: 'Teammate 3',
+    name: 'Jayanthan P',
+    role: 'ML Engineer',
+    github: 'https://github.com/jaycodes2',
+    linkedin: 'https://www.linkedin.com/in/jayanthan-p-b1037a259',
+    image: 'https://tse4.mm.bing.net/th?id=OIP.dLBz8qresJwek15OVBzJVAHaFj&pid=Api&P=0&h=180',
+  },
+  {
+    name: 'Jayant',
     role: 'UI/UX Designer',
-    github: 'https://github.com/teammate3',
-    linkedin: 'https://linkedin.com/in/teammate3',
-    image: 'https://via.placeholder.com/100',
+    github: 'https://github.com/jay1535',
+    linkedin: 'https://www.linkedin.com/in/jayant-habbu-12713725a',
+    image: 'https://tse3.mm.bing.net/th?id=OIP.ovbj39V-GhuyvJ8kOzwihgHaJQ&pid=Api&P=0&h=180',
   },
 ]
 
 const About = () => {
   return (
     <> 
-
     <main className="bg-night-bg text-night-text min-h-screen px-6 py-20">
       {/* Heading */}
       <motion.div
@@ -70,7 +76,7 @@ const About = () => {
           </p>
         </div>
 
-        <div className="grid gap-12 sm:grid-cols-2 md:grid-cols-3 max-w-6xl mx-auto">
+        <div className="grid gap-12 sm:grid-cols-2 md:grid-cols-4 max-w-6xl mx-auto">
           {team.map((member, index) => (
             <motion.div
               key={index}
@@ -114,4 +120,4 @@ const About = () => {
   )
 }
 
-export default About
+export default About;
